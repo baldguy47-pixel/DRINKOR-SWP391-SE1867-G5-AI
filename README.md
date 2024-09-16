@@ -1,2 +1,6 @@
 # DRINKOR-SWP391-SE1867-G5-AI
+<<<<<<< HEAD
 1. HAS GIT NOTIFICATION SLACK testtestes
+=======
+1. HAS GIT NOTIFICATION SLACK test test
+>>>>>>> aecf4fa33f074c9eb141b6a8db8d3d16f48ae4f5
