@@ -23,7 +23,7 @@ import java.util.Date;
 
 /**
  *
- * @author link
+ * @author linh
  */
 @WebServlet(name = "ResetPasswordControl", urlPatterns = {"/reset-password"})
 public class ResetPasswordControl extends HttpServlet {
