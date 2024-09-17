@@ -26,3 +26,19 @@ public class SettingDAO {
             Logger.getLogger(SettingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+ // Create
+ public boolean addSetting(String type, String value, int order, String description) {
+    String query = "INSERT INTO Settings (Type, Value, [Order], description) VALUES (?, ?, ?, ?)";
+    try {
+        ps = conn.prepareStatement(query);
+        ps.setString(1, type);
+        ps.setString(2, value);
+        ps.setInt(3, order);
+        ps.setString(4, description);
+        int result = ps.executeUpdate();
+        return result > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
