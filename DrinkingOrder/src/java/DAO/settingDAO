@@ -1,0 +1,28 @@
+package DAO;
+
+import DAO.DBContext;
+import Model.Setting;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class SettingDAO {
+
+    private Connection conn;
+    private PreparedStatement ps;
+    private ResultSet rs;
+
+    public SettingDAO() {
+        try {
+            // Initialize the connection in the constructor
+            conn = new DBContext().getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(SettingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
