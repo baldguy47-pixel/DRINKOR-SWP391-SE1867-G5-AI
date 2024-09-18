@@ -1,4 +1,3 @@
-
 package controller;
 
 import DAO.UserDAO;
@@ -22,7 +21,7 @@ import java.util.Date;
  *
  * @author linh
  */
-   @WebServlet(name = "ResetPasswordControl", urlPatterns = {"/reset-password"})
+@WebServlet(name = "ResetPasswordControl", urlPatterns = {"/reset-password"})
 public class ResetPasswordControl extends HttpServlet {
     
     private static int expiredMinute = 5;
@@ -67,7 +66,7 @@ public class ResetPasswordControl extends HttpServlet {
 
         }
 
-    }  
+    }
 
     public boolean sendEmail(String to, String subject, String text) {
         // URL to which the request will be sent
@@ -145,6 +144,3 @@ public class ResetPasswordControl extends HttpServlet {
 
         return result;
     }
-
-
-}
