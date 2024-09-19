@@ -66,5 +66,21 @@ public class SettingDAO {
     }
     return null;
 }
-
+ // Update
+ public boolean updateSetting(Setting setting) {
+    String query = "UPDATE Settings SET Type=?, Value=?, [Order]=?, [isDeleted]=?, [description]=? WHERE ID=?";
+    try {
+        ps = conn.prepareStatement(query);
+        ps.setString(1, setting.getType());
+        ps.setString(2, setting.getValue());
+        ps.setInt(3, setting.getOrder());
+        ps.setBoolean(4, setting.getIsDeleted());
+        ps.setString(5, setting.getDescription());
+        ps.setInt(6, setting.getID());
+        int result = ps.executeUpdate();
+        return result > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
 
