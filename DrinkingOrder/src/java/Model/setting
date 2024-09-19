@@ -2,7 +2,7 @@ package Model;
 
 /**
  *
- * @author link
+ * @author linh
  */
 public class Setting {
 

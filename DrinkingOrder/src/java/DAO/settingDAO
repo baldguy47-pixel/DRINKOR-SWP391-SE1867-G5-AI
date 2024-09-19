@@ -41,7 +41,30 @@ public class SettingDAO {
         e.printStackTrace();
     }
     return false;
-
-    
 }
+ // Read
+ public Setting getSettingByID(int settingID) {
+    String query = "SELECT * FROM Settings WHERE ID = ?";
+    try {
+        ps = conn.prepareStatement(query);
+        ps.setInt(1, settingID);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            Setting setting = new Setting(
+                    rs.getInt("ID"),
+                    rs.getString("Type"),
+                    rs.getString("Value"),
+                    rs.getInt("Order")
+            );
+            
+            setting.setIsDeleted(rs.getBoolean("isDeleted"));
+            setting.setDescription(rs.getString("description"));
+            return setting;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
 
