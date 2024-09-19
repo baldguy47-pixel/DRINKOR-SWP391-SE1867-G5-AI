@@ -26,61 +26,64 @@ public class SettingDAO {
             Logger.getLogger(SettingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
- // Create
- public boolean addSetting(String type, String value, int order, String description) {
-    String query = "INSERT INTO Settings (Type, Value, [Order], description) VALUES (?, ?, ?, ?)";
-    try {
-        ps = conn.prepareStatement(query);
-        ps.setString(1, type);
-        ps.setString(2, value);
-        ps.setInt(3, order);
-        ps.setString(4, description);
-        int result = ps.executeUpdate();
-        return result > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return false;
-}
- // Read
- public Setting getSettingByID(int settingID) {
-    String query = "SELECT * FROM Settings WHERE ID = ?";
-    try {
-        ps = conn.prepareStatement(query);
-        ps.setInt(1, settingID);
-        rs = ps.executeQuery();
-        if (rs.next()) {
-            Setting setting = new Setting(
-                    rs.getInt("ID"),
-                    rs.getString("Type"),
-                    rs.getString("Value"),
-                    rs.getInt("Order")
-            );
-            
-            setting.setIsDeleted(rs.getBoolean("isDeleted"));
-            setting.setDescription(rs.getString("description"));
-            return setting;
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return null;
-}
- // Update
- public boolean updateSetting(Setting setting) {
-    String query = "UPDATE Settings SET Type=?, Value=?, [Order]=?, [isDeleted]=?, [description]=? WHERE ID=?";
-    try {
-        ps = conn.prepareStatement(query);
-        ps.setString(1, setting.getType());
-        ps.setString(2, setting.getValue());
-        ps.setInt(3, setting.getOrder());
-        ps.setBoolean(4, setting.getIsDeleted());
-        ps.setString(5, setting.getDescription());
-        ps.setInt(6, setting.getID());
-        int result = ps.executeUpdate();
-        return result > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return false;
 
+    // Create
+    public boolean addSetting(String type, String value, int order, String description) {
+        String query = "INSERT INTO Settings (Type, Value, [Order], description) VALUES (?, ?, ?, ?)";
+        try {
+            ps = conn.prepareStatement(query);
+            ps.setString(1, type);
+            ps.setString(2, value);
+            ps.setInt(3, order);
+            ps.setString(4, description);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // Read
+    public Setting getSettingByID(int settingID) {
+        String query = "SELECT * FROM Settings WHERE ID = ?";
+        try {
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, settingID);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Setting setting = new Setting(
+                        rs.getInt("ID"),
+                        rs.getString("Type"),
+                        rs.getString("Value"),
+                        rs.getInt("Order")
+                );
+                
+                setting.setIsDeleted(rs.getBoolean("isDeleted"));
+                setting.setDescription(rs.getString("description"));
+                return setting;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Update
+    public boolean updateSetting(Setting setting) {
+        String query = "UPDATE Settings SET Type=?, Value=?, [Order]=?, [isDeleted]=?, [description]=? WHERE ID=?";
+        try {
+            ps = conn.prepareStatement(query);
+            ps.setString(1, setting.getType());
+            ps.setString(2, setting.getValue());
+            ps.setInt(3, setting.getOrder());
+            ps.setBoolean(4, setting.getIsDeleted());
+            ps.setString(5, setting.getDescription());
+            ps.setInt(6, setting.getID());
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
