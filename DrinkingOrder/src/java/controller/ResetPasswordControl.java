@@ -143,4 +143,7 @@ public class ResetPasswordControl extends HttpServlet {
         String result = dateFormat.format(newTime);
 
         return result;
+
+
+        
     }
