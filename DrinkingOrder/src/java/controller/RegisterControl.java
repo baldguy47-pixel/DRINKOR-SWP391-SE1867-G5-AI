@@ -6,6 +6,7 @@ package controller;
 
 import DAO.UserDAO;
 import Model.User;
+import Utils.EmailService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,7 +18,7 @@ import java.util.Random;
 
 /**
  *
- * @author TrungPC
+ * @author anhdu
  */
 @WebServlet(name = "RegisterControl", urlPatterns = {"/register"})
 public class RegisterControl extends HttpServlet {
@@ -76,17 +77,15 @@ public class RegisterControl extends HttpServlet {
             throws ServletException, IOException {
 
         // Retrieve parameters from the request
-//        String username = request.getParameter("username");
+
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String retypePassword = request.getParameter("retypePassword");
-        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
-        String address = request.getParameter("address");
-        String phone = request.getParameter("phone");
+
 
         // Perform additional validation checks
-        String validationError = validateRegistrationInput(fullName, email, password, retypePassword, phone, address);
+        String validationError = validateRegistrationInput(fullName, email, password, retypePassword, "", "");
 
         if (validationError != null) {
             // Validation failed
@@ -112,19 +111,29 @@ public class RegisterControl extends HttpServlet {
                 return;
             }
 
+            // Email is not registered, and passwords match, proceed with registration
+//            boolean registrationSuccessful = userDAO.registerUser(fullName, email, password, role);
+            // Verify OTP
+            String otp = generateRandomSixDigit() + "";
+            String verifyLink = "http://" + request.getServerName() + ":" + request.getServerPort()
+                    + request.getContextPath() + "/verify?otp=" + otp + "&email=" + email;
 
-   
+            // Send mail verify
+            EmailService.sendEmail(email, "Verify email", "Click here to verify: " + verifyLink);
+            
+            System.out.println(otp);
             // Set register info session
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
             user.setFullname(fullName);
-            user.setGender(gender ? "Male" : "Female");
-            user.setAddress(address);
-            user.setPhone(phone);
+            user.setGender( "Female");
+            user.setAddress("");
+            user.setPhone("");
             user.setIsDeleted(false);
             
-    
+            request.getSession().setAttribute("verify_" + email, user);
+            request.getSession().setAttribute("verify_otp_" + email, otp);
 
             // Registration successful
             request.setAttribute("errorMessage", "Verify link was sent!");
@@ -135,10 +144,7 @@ public class RegisterControl extends HttpServlet {
 
     // Additional validation method
     private String validateRegistrationInput(String fullName, String email, String password, String retypePassword, String phone, String address) {
-        // Validate full name
-        if (!isValidFullName(fullName)) {
-            return "Invalid full name. Please enter a valid full name.";
-        }
+
 
         // Validate email
         if (!isValidEmail(email)) {
@@ -155,15 +161,6 @@ public class RegisterControl extends HttpServlet {
             return "Passwords do not match. Please ensure that the entered passwords match.";
         }
 
-        // Validate phone
-        if (!isValidPhone(phone)) {
-            return "Invalid phone number. Please enter a valid phone number.";
-        }
-
-        // Validate address
-        if (!isValidAddress(address)) {
-            return "Invalid address. Please enter a valid address.";
-        }
 
         return null; // No validation error
     }

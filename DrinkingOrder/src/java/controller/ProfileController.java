@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author TrungPC
+ * @author anhdu
  */
 @WebServlet(name = "ProfileController", urlPatterns = {"/common/profile"})
 public class ProfileController extends HttpServlet {
@@ -33,9 +33,9 @@ public class ProfileController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int id = Integer.parseInt(request.getParameter("id"));
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        
+//        String email = request.getParameter("email");
+//        String password = request.getParameter("password");
         String fullname = request.getParameter("fullname");
         String gender = request.getParameter("gender");
         String address = request.getParameter("address");
@@ -43,11 +43,10 @@ public class ProfileController extends HttpServlet {
         String avatar = request.getParameter("avatar");
 
         
-        User user = new UserDAO().getUserById(id);
+        User user = (User)request.getSession(true).getAttribute("user");
         
-        user.setId(id);
-        user.setEmail(email);
-        user.setPassword(password);
+//        user.setEmail(email);
+//        user.setPassword(password);
         user.setFullname(fullname);
         user.setGender(gender);
         user.setAddress(address);
