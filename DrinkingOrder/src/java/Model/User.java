@@ -115,18 +115,5 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-    
-    public String toString(Staff staff) {
-        String time = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy"));
-        return "<tr>"
-                + "<td><strong>" + time + "</strong></td>"
-                + "<td>" + email + "</td>"
-                + "<td>" + fullname + "</td>"
-                + "<td>" + gender + "</td>"
-                + "<td>" + address + "</td>"
-                + "<td>" + phone + "</td>"
-                + "<td> Updated by: " + staff.getFullname() + "</td>"
-                + "</tr>";
-    }
+    }    
 }
