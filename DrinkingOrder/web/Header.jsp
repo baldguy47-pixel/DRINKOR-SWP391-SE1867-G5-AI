@@ -23,7 +23,7 @@
                 <div class="search-bar border rounded-2 px-3 border-dark-subtle">
                     <form id="search-form" class="text-center d-flex align-items-center" action="${pageContext.request.contextPath}/public/list-product">
                         <input type="text" class="form-control border-0 bg-transparent"
-                               placeholder="Search ..." name="searchQuery" value="${searchQuery}"/>
+                               placeholder="Tìm kiếm ..." name="searchQuery" value="${searchQuery}"/>
                         <button type="submit" style="background: none; border: 0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <path fill="currentColor"
@@ -38,12 +38,12 @@
                 <c:if test="${sessionScope.user == null}">
                     <div class="support-box text-end d-none d-xl-block">
                         <a href="${pageContext.request.contextPath}/login" class="btn" style="background: none; border: 0">
-                            <h5 class="mb-0">login</h5>
+                            <h5 class="mb-0">Đăng nhập</h5>
                         </a>
                     </div>
                     <div class="support-box text-end d-none d-xl-block">
                         <a href="${pageContext.request.contextPath}/register" class="btn" style="background: none; border: 0">
-                            <h5 class="mb-0">Register</h5>
+                            <h5 class="mb-0">Đăng ký</h5>
                         </a>
                     </div>
                 </c:if>
@@ -55,9 +55,9 @@
                                 <img src="${sessionScope.user.avatar}" alt="User Profile" class="custom-user-image" id="customUserImage">
                             </button>
                             <div class="custom-dropdown-content" id="customDropdownContent">
-                                <a href="${pageContext.request.contextPath}/common/profile" class="custom-dropdown-item">Profile</a>
-                                <a href="#" class="custom-dropdown-item">Setting</a>
-                                <a href="${pageContext.request.contextPath}/logout" class="custom-dropdown-item">Logout</a>
+                                <a href="${pageContext.request.contextPath}/common/profile" class="custom-dropdown-item">Hồ sơ</a>
+                                <a href="#" class="custom-dropdown-item">Cài đặt</a>
+                                <a href="${pageContext.request.contextPath}/logout" class="custom-dropdown-item">Đăng xuất</a>
                             </div>
                         </div>
                     </div>
