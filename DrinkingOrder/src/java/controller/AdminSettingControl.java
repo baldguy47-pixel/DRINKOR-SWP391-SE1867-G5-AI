@@ -92,6 +92,7 @@ public class AdminSettingControl extends HttpServlet {
             // Handle update failure
             response.sendRedirect("setting?fail");
             
+            
         }
     }
 }
