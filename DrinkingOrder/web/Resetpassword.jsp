@@ -94,22 +94,18 @@
             <div class="card text-center" style="width: 500px;">
                 <div class="card-header h5 text-white bg-primary">Đặt lại mật khẩu</div>
                 <div class="card-body px-5">
+                    <p class="card-text py-2">
+                        Nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn email có hướng dẫn đặt lại mật khẩu.
+                    </p>
                     <!-- Display error message if any -->
                 <c:if test="${errorMessage != null}">
                     <div style="color: red">
-                        ${errorMessage}
-                    </div>
+                    ${errorMessage}
+                </div>
                 </c:if>
-                    <form class="login-form" action="new-password" method="post" id="_form">
-                    <input type="hidden" name="email" value="${email}">
-                    <input type="hidden" name="otp" value="${otp}">
+                <form class="login-form" action="reset-password" method="post">
                     <div data-mdb-input-init class="form-outline">
-                        <input type="password" id="password" name="password" required oninput="validatePassword()" class="form-control my-3" placeholder="Mật khẩu"/>
-                        <div id="passwordError" style="color: red"></div>
-                    </div>
-                    <div data-mdb-input-init class="form-outline">
-                        <input type="password" id="retypePassword" name="retypePassword" required oninput="validateRetypePassword()" class="form-control my-3" placeholder="Nhập lại mật khẩu"/>
-                        <div id="retypePasswordError" style="color: red"></div>
+                        <input type="email" id="typeEmail" name="email" class="form-control my-3" placeholder="Email"/>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Đặt lại mật khẩu</button>
                 </form>
@@ -227,47 +223,7 @@
     <script src="${pageContext.request.contextPath}/js2/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/js2/script.js"></script> 
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <script>
-        let validateFullname = true;
-        let validatepassword = true;
-        let validateRePassword = true;
-
-
-        function validatePassword() {
-            var passwordInput = document.getElementById('password');
-            var passwordError = document.getElementById('passwordError');
-
-            if (passwordInput.value.trim().length < 8) {
-                passwordError.textContent = 'Mật khẩu ít nhất 8 chữ số';
-                validatepassword = false;
-            } else {
-                passwordError.textContent = '';
-                validatepassword = true;
-            }
-        }
-
-        function validateRetypePassword() {
-            var passwordInput = document.getElementById('password');
-            var retypePasswordInput = document.getElementById('retypePassword');
-            var retypePasswordError = document.getElementById('retypePasswordError');
-
-            if (retypePasswordInput.value !== passwordInput.value) {
-                validateRePassword = false;
-                retypePasswordError.textContent = 'Mật khẩu không khớp';
-            } else {
-                retypePasswordError.textContent = '';
-                validateRePassword = true;
-            }
-        }
-        document.getElementById('_form').addEventListener('submit', function (event) {
-            event.preventDefault();
-            if (!validateFullname || !validatepassword || !validateRePassword)
-                return;
-            event.target.submit();
-        });
-    </script>
 
 </body>
 
 </html>
-
