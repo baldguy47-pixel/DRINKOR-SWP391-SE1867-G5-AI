@@ -129,5 +129,4 @@ public class User {
                 + "<td> Updated by: " + staff.getFullname() + "</td>"
                 + "</tr>";
     }
-
 }
