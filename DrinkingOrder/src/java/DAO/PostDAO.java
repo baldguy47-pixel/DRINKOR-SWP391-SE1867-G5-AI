@@ -316,6 +316,24 @@ public class PostDAO extends DBContext {
         return totalPosts;
     }
     
-    
+    public List<Post> homePage(){
+        String sql = "SELECT TOP 3 * FROM post where isDeleted = 0 ORDER BY CreatedAt DESC";
+        List<Post> posts = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Post post = new Post();
+                post.setId(rs.getInt("ID"));
+                post.setTitle(rs.getString("Title"));
+                post.setContent(rs.getString("Content"));
+                post.setCreatedAt(Timestamp.valueOf(rs.getString("CreatedAt")));
+                post.setImgURL(rs.getString("imgURL"));
+                posts.add(post);
+            }
+        } catch (Exception e) {
+        }
+        return posts;
+    }
 
 }

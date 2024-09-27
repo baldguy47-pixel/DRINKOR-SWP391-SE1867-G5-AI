@@ -6,6 +6,7 @@ package DAO;
 
 import Model.Product;
 import Model.ProductDetail;
+import Model.Topping;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Connection;
@@ -1093,5 +1094,81 @@ public List<Product> listProductsPage(String name, String category, double minPr
         }
 
         return products;
+    }
+
+public List<Product> homePage() {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT TOP 12 \n"
+                + "    p.*, \n"
+                + "    pd.*\n"
+                + "FROM \n"
+                + "    product p\n"
+                + "INNER JOIN (\n"
+                + "    SELECT \n"
+                + "        ProductID, \n"
+                + "        MIN(Price) AS MinPrice\n"
+                + "    FROM \n"
+                + "        productDetail\n"
+                + "    WHERE \n"
+                + "        isDeleted = 0\n"
+                + "    GROUP BY \n"
+                + "        ProductID\n"
+                + ") AS MinPrices ON p.ID = MinPrices.ProductID\n"
+                + "INNER JOIN productDetail pd ON p.ID = pd.ProductID AND pd.Price = MinPrices.MinPrice\n"
+                + "WHERE \n"
+                + "    p.isDeleted = 0\n"
+                + "ORDER BY \n"
+                + "    p.CreatedAt DESC\n";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                ProductDetail productDetail = new ProductDetail();
+
+                product.setProductId(rs.getInt("ID"));
+                product.setProductName(rs.getString("Name"));
+                product.setDescription(rs.getString("description"));
+
+                productDetail.setPrice(rs.getDouble("price"));
+                productDetail.setImageURL(rs.getString("ImageURL"));
+                productDetail.setDiscount(rs.getInt("discount"));
+
+                product.setProductDetail(productDetail);
+
+                products.add(product);
+            }
+            return products;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return products;
+    }
+
+public List<Topping> getAllToppings(int productId) {
+        List<Topping> toppings = new ArrayList<>();
+        String query = "SELECT [ID], [ToppingName], [Price], [IsDeleted], [CreatedDate], [LastUpdated], [Img], [ProductID] FROM [Topping] WHERE [IsDeleted] = 0 and ProductID = ?";
+
+        try (
+                PreparedStatement ps = connection.prepareStatement(query); ) {
+            ps.setInt(1, productId);
+ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Topping topping = new Topping();
+                topping.setId(rs.getInt("ID"));
+                topping.setToppingName(rs.getString("ToppingName"));
+                topping.setPrice(rs.getDouble("Price"));
+                topping.setDeleted(rs.getBoolean("IsDeleted"));
+                topping.setCreatedDate(rs.getDate("CreatedDate").toLocalDate());
+                topping.setLastUpdated(rs.getDate("LastUpdated").toLocalDate());
+                topping.setImg(rs.getString("Img"));
+                topping.setProductId(rs.getInt("ProductID"));
+                toppings.add(topping);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllToppings: " + e.getMessage());
+        }
+        return toppings;
     }
 }
