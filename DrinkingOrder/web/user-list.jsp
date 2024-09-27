@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -19,37 +19,37 @@
         <%@ include file="admin-sidebar.jsp" %>
 
         <div class="mt-5 main-content">
-            <h2>Staff List</h2>
+            <h2>Danh sách nhân viên</h2>
 
 
             <c:if test="${param.success ne null}">
                 <div class="alert alert-success" role="alert">
-                    Success!
+                    Thành công!
                 </div>
             </c:if>
             <c:if test="${param.fail ne null}">
                 <div class="alert alert-danger" role="alert">
-                    Failed!
+                    Thất bại!
                 </div>
             </c:if>
 
-            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addUserModal">Add User</button>
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addUserModal">Thêm người dùng</button>
 
             <!--filter form-->
             <form action="user" method="get" class="form-inline mb-3">
                 <div class="form-group mr-2">
-                    <input type="text" class="form-control" name="fullName" placeholder="Full Name">
+                    <input type="text" class="form-control" name="fullName" placeholder="Họ và tên">
                 </div>
                 <div class="form-group mr-2">
                     <input type="text" class="form-control" name="email" placeholder="Email">
                 </div>
                 <div class="form-group mr-2">
-                    <input type="text" class="form-control" name="phone" placeholder="Phone">
+                    <input type="text" class="form-control" name="phone" placeholder="Số điện thoại">
                 </div>
 
                 <div class="form-group mr-2">
                     <select class="form-control" name="role">
-                        <option value="">Select Role</option>
+                        <option value="">Chức vụ</option>
                         <option value="1">Admin</option>
                         <option value="2">Marketing</option>
                         <option value="3">Sale</option>
@@ -67,12 +67,12 @@
                 <div class="form-group mr-2">
                     <select class="form-control" name="status">
                         <option value="">Select Status</option>
-                        <option value="false">Active</option>
-                        <option value="true">Inactive</option>
+                        <option value="false">Hoạt động</option>
+                        <option value="true">Không hoạt động</option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-3">Search</button>
+                <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
             </form>
 
 
@@ -80,14 +80,14 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Full Name</th>
+                        <th>Họ và tên</th>
                         <th>Email</th>
-                        <th>Role</th>
-                        <th>Gender</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>Chức vụ</th>
+                        <th>Giới tính</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -139,7 +139,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editUserModalLabel_${user.id}">Edit User</h5>
+                            <h5 class="modal-title" id="editUserModalLabel_${user.id}">Chỉnh sửa</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -150,15 +150,15 @@
                                 <input type="hidden" name="action" value="update">
                                 <input type="hidden" name="userId" value="${user.id}">
                                 <div class="form-group">
-                                    <label for="fullName">Full Name</label>
-                                    <input type="text" class="form-control" id="fullName" name="fullName" value="${user.fullname}" readonly>
+                                    <label for="fullName">Họ và tên</label>
+                                    <input type="text" class="form-control" id="fullName" name="Họ và tên" value="${user.fullname}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="${user.getEmail()}" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="role">Role</label>
+                                    <label for="role">Chức vụ</label>
                                     <select class="form-control" id="role" name="role">
                                         <option value="1" ${user.roleString eq "Admin" ? "selected" : ""}>Admin</option>
                                         <option value="2" ${user.roleString eq "Marketing" ? "selected" : ""}>Marketing</option>
@@ -168,35 +168,35 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="gender">Gender</label>
+                                    <label for="gender">Giới tính</label>
                                     <select class="form-control" id="gender" name="gender" readonly>
-                                        <option value="true" ${user.gender eq 'Male' ? "selected" : ""}>Male</option>
-                                        <option value="false" ${user.gender eq 'Female' ? "selected" : ""}>Female</option>
+                                        <option value="true" ${user.gender eq 'Male' ? "selected" : ""}>Nam</option>
+                                        <option value="false" ${user.gender eq 'Female' ? "selected" : ""}>Nữ</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="address">Address</label>
+                                    <label for="address">Địa chỉ</label>
                                     <input type="text" class="form-control" id="address" name="address" value="${user.getAddress()}" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone">Phone</label>
+                                    <label for="phone">Số điện thoại</label>
                                     <input type="text" class="form-control" id="phone" name="phone" value="${user.getPhone()}" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="imageUrl">Image</label>
+                                    <label for="imageUrl">Ảnh</label>
                                     <img id="image${user.id}" class="w-100" src="${user.avatar}">
                                     <input type="file" class="form-control" id="imageFile${user.id}" accept="image/*" onchange="updateImage(${user.id})">
                                     <input type="hidden" class="form-control" id="imageUrl${user.id}" name="imageUrl" value="${user.avatar}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="status">Status</label>
+                                    <label for="status">Trạng thái</label>
                                     <select class="form-control" id="status" name="status">
-                                        <option value="false" ${!user.isDeleted ? "selected" : ""}>Active</option>
-                                        <option value="true" ${user.isDeleted ? "selected" : ""}>Inactive</option>
+                                        <option value="false" ${!user.isDeleted ? "selected" : ""}>Hoạt động</option>
+                                        <option value="true" ${user.isDeleted ? "selected" : ""}>Không hoạt động</option>
                                     </select>
                                 </div>
                                 <!-- Add other fields as needed -->
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="submit" class="btn btn-primary">Lưu lại</button>
                             </form>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="userInfoModalLabel_${user.id}">User Details</h5>
+                            <h5 class="modal-title" id="userInfoModalLabel_${user.id}">Thông tin</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -216,13 +216,13 @@
                         <div class="modal-body">
                             <img src="${user.avatar}" class="img-thumbnail mb-3" alt="Profile Image" style="width: 150px; height: 150px;">
                             <p><strong>ID:</strong> ${user.id}</p>
-                            <p><strong>Full Name:</strong> ${user.fullname}</p>
+                            <p><strong>Họ tên:</strong> ${user.fullname}</p>
                             <p><strong>Email:</strong> ${user.getEmail()}</p>
-                            <p><strong>Role:</strong> ${user.getRole()}</p>
-                            <p><strong>Gender:</strong> ${user.gender}</p>
-                            <p><strong>Address:</strong> ${user.getAddress()}</p>
-                            <p><strong>Phone:</strong> ${user.getPhone()}</p>
-                            <p><strong>Status</strong> ${user.isDeleted ? 'Inactive' : 'Active'}</p>
+                            <p><strong>Chức vụ:</strong> ${user.getRole()}</p>
+                            <p><strong>Giới tính:</strong> ${user.gender}</p>
+                            <p><strong>Địa chỉ:</strong> ${user.getAddress()}</p>
+                            <p><strong>Số điện thoai:</strong> ${user.getPhone()}</p>
+                            <p><strong>Trạng thái</strong> ${user.isDeleted ? 'Inactive' : 'Active'}</p>
                         </div>
                     </div>
                 </div>
@@ -238,7 +238,7 @@
                 <div class="modal-content">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                        <h5 class="modal-title" id="addUserModalLabel">Thêm người dùng</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -251,7 +251,7 @@
                             <input type="hidden" name="action" value="add">
                             <!-- Form Inputs -->
                             <div class="form-group">
-                                <label for="fullName">Full Name</label>
+                                <label for="fullName">Họ tên</label>
                                 <input type="text" class="form-control" id="fullName" name="fullName" required>
                             </div>
                             <div class="form-group">
@@ -259,11 +259,11 @@
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password">Mật khẩu</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <div class="form-group">
-                                <label for="role">Role</label>
+                                <label for="role">Chức vụ</label>
                                 <select class="form-control" id="role" name="role">
                                     <option value="1">Admin</option>
                                     <option value="3">Sale</option>
@@ -273,27 +273,27 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="gender">Gender</label>
+                                <label for="gender">Giới tính</label>
                                 <select class="form-control" id="gender" name="gender">
-                                    <option value="true">Male</option>
-                                    <option value="false">Female</option>
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="address">Address</label>
+                                <label for="address">Địa chỉ</label>
                                 <input type="text" class="form-control" id="address" name="address">
                             </div>
                             <div class="form-group">
-                                <label for="phone">Phone</label>
+                                <label for="phone">Số điện thoại</label>
                                 <input type="text" class="form-control" id="phone" name="phone">
                             </div>
                             <div class="form-group">
-                                <label for="imageUrl">Image</label>
+                                <label for="imageUrl">Ảnh</label>
                                 <img id="image0" class="w-100" src="">
                                 <input type="file" class="form-control" id="imageFile0" accept="image/*" onchange="updateImage(0)" required>
                                 <input type="hidden" class="form-control" id="imageUrl0" name="imageUrl" value="">
                             </div>
-                            <button type="submit" class="btn btn-primary">Add User</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
                         </form>
                     </div>
                 </div>
@@ -335,7 +335,7 @@
                     const maxSize = 2 * 1024 * 1024; // 2 MB in bytes
 
                     if (file.size > maxSize) {
-                        alert("The selected file is too large. Please select a file smaller than 2 MB.");
+                        alert("File tối đa 2 MB.");
                         fileInput.value = ''; // Clear the file input
                         return;
                     }
