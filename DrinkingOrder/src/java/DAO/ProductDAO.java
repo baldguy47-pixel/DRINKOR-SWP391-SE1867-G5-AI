@@ -6,6 +6,7 @@ package DAO;
 
 import Model.Product;
 import Model.ProductDetail;
+import Model.Topping;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Connection;
@@ -1143,5 +1144,31 @@ public List<Product> homePage() {
         }
 
         return products;
+    }
+
+public List<Topping> getAllToppings(int productId) {
+        List<Topping> toppings = new ArrayList<>();
+        String query = "SELECT [ID], [ToppingName], [Price], [IsDeleted], [CreatedDate], [LastUpdated], [Img], [ProductID] FROM [Topping] WHERE [IsDeleted] = 0 and ProductID = ?";
+
+        try (
+                PreparedStatement ps = connection.prepareStatement(query); ) {
+            ps.setInt(1, productId);
+ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Topping topping = new Topping();
+                topping.setId(rs.getInt("ID"));
+                topping.setToppingName(rs.getString("ToppingName"));
+                topping.setPrice(rs.getDouble("Price"));
+                topping.setDeleted(rs.getBoolean("IsDeleted"));
+                topping.setCreatedDate(rs.getDate("CreatedDate").toLocalDate());
+                topping.setLastUpdated(rs.getDate("LastUpdated").toLocalDate());
+                topping.setImg(rs.getString("Img"));
+                topping.setProductId(rs.getInt("ProductID"));
+                toppings.add(topping);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllToppings: " + e.getMessage());
+        }
+        return toppings;
     }
 }
