@@ -1,1 +1,4 @@
 DrinkingOrder/nbproject/private/private.xml
+DrinkingOrder/web/META-INF/context.xml
+DrinkingOrder/web/WEB-INF/web.xml
+DrinkingOrder/web/WEB-INF/web_1.xml
