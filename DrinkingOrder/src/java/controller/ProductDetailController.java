@@ -5,12 +5,9 @@
 
 package controller;
 
-import DAO.FeedbackDAO;
 import DAO.ProductDAO;
-import Model.Feedback;
 import Model.Product;
 import Model.ProductDetail;
-import Model.Topping;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -79,8 +76,8 @@ public class ProductDetailController extends HttpServlet {
         //List<Feedback> feedbackList = new FeedbackDAO().getFeedbackByProductDetailID(product.getProductDetail().getProductDetailId(), offset, PAGE_SIZE);
         
        
-        List<Topping> toppings = new ProductDAO().getAllToppings();
-        request.setAttribute("toppings", toppings);
+        //List<Topping> toppings = new ProductDAO().getAllToppings();
+        //request.setAttribute("toppings", toppings);
         //request.setAttribute("feedbackList", feedbackList);
         //request.setAttribute("currentPage", page);
         List<ProductDetail> listDetails = new ProductDAO().getProductDetailsByProductId(id);

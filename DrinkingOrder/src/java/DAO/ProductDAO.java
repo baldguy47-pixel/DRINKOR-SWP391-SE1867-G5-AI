@@ -1010,5 +1010,88 @@ public class ProductDAO extends DBContext {
 
         return success;
     }
+    public int countFilter(String name, String category, double minPrice, double maxPrice) {
+        String sql = "SELECT COUNT(*)\n"
+                + "FROM Product p\n"
+                + "JOIN (\n"
+                + "    SELECT pd1.*\n"
+                + "    FROM ProductDetail pd1\n"
+                + "    JOIN (\n"
+                + "        -- Lấy giá nhỏ nhất của từng ProductID\n"
+                + "        SELECT ProductID, MIN(Price) AS MinPrice\n"
+                + "        FROM ProductDetail\n"
+                + "        GROUP BY ProductID\n"
+                + "    ) pd2 ON pd1.ProductID = pd2.ProductID AND pd1.Price = pd2.MinPrice\n"
+                + ") pd ON p.ID = pd.ProductID\n"
+                + "JOIN Category c ON p.CategoryID = c.ID\n"
+                + "WHERE pd.Price BETWEEN "+minPrice+" AND "+maxPrice+"\n  "
+                + "  AND p.name like '%"+name+"%'  ";
 
+        if (category != null && category.length() != 0) {
+            sql += "  AND c.ID in (" + category + ")";
+        }
+        int products = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                products = rs.getInt(1);
+            }
+            return products;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return products;
+    }
+public List<Product> listProductsPage(String name, String category, double minPrice, double maxPrice, int pageSize, int pageNumber, String arrange) {
+        String sql = "SELECT p.*, pd.*, c.*\n"
+                + "FROM Product p\n"
+                + "JOIN (\n"
+                + "    SELECT pd1.*\n"
+                + "    FROM ProductDetail pd1\n"
+                + "    JOIN (\n"
+                + "        -- Lấy giá nhỏ nhất của từng ProductID\n"
+                + "        SELECT ProductID, MIN(Price) AS MinPrice\n"
+                + "        FROM ProductDetail\n"
+                + "        GROUP BY ProductID\n"
+                + "    ) pd2 ON pd1.ProductID = pd2.ProductID AND pd1.Price = pd2.MinPrice\n"
+                + ") pd ON p.ID = pd.ProductID\n"
+                + "JOIN Category c ON p.CategoryID = c.ID\n"
+                + "WHERE pd.Price BETWEEN "+minPrice+" AND "+maxPrice+"\n  "
+                + "  AND p.name like '%"+name+"%'  ";
+
+        if (category != null && category.length() != 0) {
+            sql += "  AND c.ID in (" + category + ")";
+        }
+
+        sql += "ORDER BY pd.price " + arrange + "\n  OFFSET (" + pageNumber + " - 1) * " + pageSize + " ROWS\n"
+                + " FETCH NEXT " + pageSize + " ROWS ONLY;";
+
+        List<Product> products = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product();
+                ProductDetail productDetail = new ProductDetail();
+
+                product.setProductId(rs.getInt("ID"));
+                product.setProductName(rs.getString("Name"));
+
+                productDetail.setPrice(rs.getDouble("price"));
+                productDetail.setImageURL(rs.getString("ImageURL"));
+                productDetail.setDiscount(rs.getInt("discount"));
+
+                product.setProductDetail(productDetail);
+
+                products.add(product);
+            }
+            return products;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return products;
+    }
 }
