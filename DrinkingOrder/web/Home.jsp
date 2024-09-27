@@ -124,7 +124,7 @@
                 <div class="section-header d-md-flex justify-content-between align-items-center mb-3">
                     <h2 class="display-3 fw-normal">Sản phẩm mới</h2>
                     <div>
-                        <a href="public/product-detail?id=${p.productId}" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
+                        <a href="public/list-product" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1">
                            Xem thêm
                             <svg width="24" height="24" viewBox="0 0 24 24" class="mb-1">
                             <use xlink:href="#arrow-right"></use>
@@ -145,7 +145,7 @@
                                 </c:if>
 
                                 <div class="card position-relative">
-                                    <a href="single-product.html"><img src="${p.productDetail.imageURL}" class="img-fluid rounded-4" alt="image"></a>
+                                    <a href="public/product-detail?id=${p.productId}"><img src="${p.productDetail.imageURL}" class="img-fluid rounded-4" alt="image"></a>
                                     <div class="card-body p-0">
                                         <a href="single-product.html">
                                             <h3 class="card-title pt-4 m-0">${p.productName}</h3>
